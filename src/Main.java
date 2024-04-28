@@ -1,15 +1,29 @@
+import java.util.Scanner;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        boolean isWrongType = false;
+
+        int index = 0;
+        Scanner scanner = new Scanner(System.in);
+        Integer inputExpense = 0;
+
+        do {
+            System.out.println("Ingrese la cantidad de gastos a registrar: ");
+            if (scanner.hasNextInt())
+            {
+                inputExpense = scanner.nextInt();
+            } else {
+                System.out.println("Dato erroneo");
+            }
+        } while (isWrongType);
+
+        do {
+
+            index++;
+        } while (index < inputExpense);
     }
 }
