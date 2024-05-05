@@ -62,7 +62,7 @@ public class Main {
             String date = scanner.nextLine();
 
             expense.setId(counter);
-            expense.setAmount(amount);
+            expense.setAmount(Double.parseDouble(amount));
             expense.setCategory(category);
             expense.setDate(date);
 
