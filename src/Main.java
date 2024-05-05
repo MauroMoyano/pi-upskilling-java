@@ -5,6 +5,8 @@ import interfaces.ExpenseAmountValidator;
 import interfaces.ExpenseAmountValidatorImpl;
 import interfaces.ExpenseCalculator;
 import interfaces.ExpenseCalculatorImpl;
+import utils.ValidateTypeDoubleImp;
+import utils.ValidateTypeIntImp;
 
 import java.util.Scanner;
 
@@ -20,21 +22,19 @@ public class Main {
 
         int index = 0;
         Scanner scanner = new Scanner(System.in);
-        Double amount;
+        String amount;
         Integer inputAmountOfExpense = 0;
 
-        ExpenseAmountValidator expenseAmountValidator = new ExpenseAmountValidatorImpl();
+
         ExpenseCalculator expenseCalculator = new ExpenseCalculatorImpl();
 
-        do {
-            System.out.print("Ingrese la cantidad de gastos a registrar: ");
-            if (scanner.hasNextInt())
-            {
-                inputAmountOfExpense = scanner.nextInt();
-            } else {
-                System.out.println("Dato erroneo");
-            }
-        } while (isWrongType);
+            do {
+                System.out.print("Ingrese la cantidad de gastos a registrar: ");
+                    String aux = scanner.next();
+                    isWrongType = ValidateTypeIntImp.validate(aux);
+                    if ( isWrongType ) inputAmountOfExpense = Integer.parseInt(aux);
+            } while (!isWrongType);
+
 
         Expense[] expenses = new Expense[inputAmountOfExpense];
 
@@ -46,16 +46,9 @@ public class Main {
 
             do {
                 System.out.print("Ingrese el monto del gasto: ");
-                amount = scanner.nextDouble();
+                amount = scanner.next();
+                flag = ValidateTypeDoubleImp.validate(amount);
 
-                try {
-                    if (!expenseAmountValidator.notValidAmount(amount)) {
-                        System.out.println("El monto es valido");
-                        flag = true;
-                    }
-                }catch (InvalidExpenseException e) {
-                    System.out.println("Error = " + e.getMessage());
-                }
             } while(!flag);
 
             scanner.nextLine();
