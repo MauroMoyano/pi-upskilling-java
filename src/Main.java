@@ -1,14 +1,14 @@
 import entities.Expense;
-import entities.ExpenseCategory;
 import exception.InvalidExpenseException;
-import interfaces.ExpenseAmountValidator;
-import interfaces.ExpenseAmountValidatorImpl;
 import interfaces.ExpenseCalculator;
 import interfaces.ExpenseCalculatorImpl;
 import utils.ValidateTypeDoubleImp;
 import utils.ValidateTypeIntImp;
 
-import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
+
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -24,6 +24,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String amount;
         Integer inputAmountOfExpense = 0;
+        Map<String, Integer> categoriesCount = new HashMap<>();
 
 
         ExpenseCalculator expenseCalculator = new ExpenseCalculatorImpl();
@@ -36,12 +37,12 @@ public class Main {
             } while (!isWrongType);
 
 
-        Expense[] expenses = new Expense[inputAmountOfExpense];
+        List<Expense> expenses = new ArrayList<>();
 
         do {
             if (counter != 0) System.out.println("Proximo gasto ->");
             Expense expense = new Expense();
-            ExpenseCategory category = new ExpenseCategory();
+            Set<String> categorties = new HashSet<>();
             boolean flag = false;
 
             do {
@@ -54,8 +55,14 @@ public class Main {
             scanner.nextLine();
 
             System.out.print("Ingrese la categoria del gasto:");
-            String name = scanner.nextLine().toLowerCase().trim();
-            category.setName(name);
+            String categoryName = scanner.nextLine().toLowerCase().trim();
+            categorties.add(categoryName);
+            if (categoriesCount.containsKey(categoryName)) {
+                categoriesCount.put(categoryName, categoriesCount.get(categoryName) + 1);
+            } else {
+                categoriesCount.put(categoryName, 1);
+            }
+
 
 
             System.out.print("Ingrese la fecha del gasto: (dd/mm/yyyy) -> ");
@@ -63,19 +70,20 @@ public class Main {
 
             expense.setId(counter);
             expense.setAmount(Double.parseDouble(amount));
-            expense.setCategory(category);
+            expense.setCategory(categoryName);
             expense.setDate(date);
 
-            expenses[index] = expense;
+            expenses.add(expense);
 
             counter++;
             index++;
         } while (index < inputAmountOfExpense);
         System.out.println("Total de gastos ingresados: " + expenseCalculator.calculateTotalExpense(expenses));
+        System.out.println("Map " + categoriesCount);
 
         System.out.println("DETALLE DE GASTOS INGRESADOS");
-        for (int i = 0; i < expenses.length; i++) {
-            System.out.println(expenses[i]);
+        for (int i = 0; i < expenses.size(); i++) {
+            System.out.println(expenses.get(i));
         }
     }
 }

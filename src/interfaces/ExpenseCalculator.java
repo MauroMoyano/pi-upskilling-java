@@ -2,7 +2,9 @@ package interfaces;
 
 import entities.Expense;
 
+import java.util.List;
+
 public interface ExpenseCalculator {
     double calculateExpense(Expense expense);
-    double calculateTotalExpense(Expense[] expenses);
+    double calculateTotalExpense(List<Expense> expenses);
 }
