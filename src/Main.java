@@ -2,6 +2,7 @@ import entities.Expense;
 import exception.InvalidExpenseException;
 import interfaces.ExpenseCalculator;
 import interfaces.ExpenseCalculatorImpl;
+import utils.Utilities;
 import utils.ValidateTypeDoubleImp;
 import utils.ValidateTypeIntImp;
 
@@ -9,6 +10,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -29,17 +31,21 @@ public class Main {
 
         ExpenseCalculator expenseCalculator = new ExpenseCalculatorImpl();
 
-            do {
-                System.out.print("Ingrese la cantidad de gastos a registrar: ");
-                    String aux = scanner.next();
-                    isWrongType = ValidateTypeIntImp.validate(aux);
-                    if ( isWrongType ) inputAmountOfExpense = Integer.parseInt(aux);
-            } while (!isWrongType);
+//            do {
+//                System.out.print("Ingrese la cantidad de gastos a registrar: ");
+//                    String aux = scanner.next();
+//                    isWrongType = ValidateTypeIntImp.validate(aux);
+//                    if ( isWrongType ) inputAmountOfExpense = Integer.parseInt(aux);
+//            } while (!isWrongType);
+        boolean cuLogicVar;
+        System.out.println("¿Desea cargar un gasto? SI/NO");
+
+        cuLogicVar = scanner.nextBoolean();
 
 
         List<Expense> expenses = new ArrayList<>();
 
-        do {
+        while(cuLogicVar){
             if (counter != 0) System.out.println("Proximo gasto ->");
             Expense expense = new Expense();
             Set<String> categorties = new HashSet<>();
@@ -57,11 +63,14 @@ public class Main {
             System.out.print("Ingrese la categoria del gasto:");
             String categoryName = scanner.nextLine().toLowerCase().trim();
             categorties.add(categoryName);
-            if (categoriesCount.containsKey(categoryName)) {
-                categoriesCount.put(categoryName, categoriesCount.get(categoryName) + 1);
-            } else {
-                categoriesCount.put(categoryName, 1);
-            }
+
+            categoriesCount.put(categoryName, categoriesCount.getOrDefault(categoryName, 0) + 1);
+
+//            if (categoriesCount.containsKey(categoryName)) {
+//                categoriesCount.put(categoryName, categoriesCount.get(categoryName) + 1);
+//            } else {
+//                categoriesCount.put(categoryName, 1);
+//            }
 
 
 
@@ -77,13 +86,27 @@ public class Main {
 
             counter++;
             index++;
-        } while (index < inputAmountOfExpense);
+
+            System.out.println("¿Desea cargar otro gasto? SI/NO");
+            cuLogicVar = scanner.nextBoolean();
+        }
         System.out.println("Total de gastos ingresados: " + expenseCalculator.calculateTotalExpense(expenses));
+
+        System.out.println("Top 3 de astos ingresados ");
+        List<Double> amountList = expenses.stream()
+                .map(Expense::getAmount)
+                .limit(3)
+                .toList();
+
+        amountList.forEach(System.out::println);
+
         System.out.println("Map " + categoriesCount);
 
         System.out.println("DETALLE DE GASTOS INGRESADOS");
-        for (int i = 0; i < expenses.size(); i++) {
-            System.out.println(expenses.get(i));
-        }
+//        for (int i = 0; i < expenses.size(); i++) {
+//            System.out.println(expenses.get(i));
+//        }
+        Utilities.printElement(expenses);
+//        expenses.forEach(System.out::println);
     }
 }

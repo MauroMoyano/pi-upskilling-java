@@ -3,6 +3,7 @@ package interfaces;
 import entities.Expense;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class ExpenseCalculatorImpl implements ExpenseCalculator{
@@ -13,10 +14,11 @@ public class ExpenseCalculatorImpl implements ExpenseCalculator{
 
     public double calculateTotalExpense(List<Expense> expenses) {
 
-        double totalExpense = 0;
-        for (Expense expense : expenses) {
-            totalExpense += expense.getAmount();
-        }
+        double totalExpense;
+
+        Stream<Expense> expenseStream = expenses.stream();
+
+        totalExpense = expenseStream.mapToDouble(Expense::getAmount).sum();
 
         return totalExpense;
     }

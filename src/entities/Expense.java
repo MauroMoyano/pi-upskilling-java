@@ -25,9 +25,7 @@ public class Expense {
         this.id = id;
     }
 
-    public Double getAmount() {
-        return amount;
-    }
+    public Double getAmount() { return amount; }
 
     public void setAmount(Double amount) {
         this.amount = amount;
