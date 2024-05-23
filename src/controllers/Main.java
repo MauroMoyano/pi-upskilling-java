@@ -1,16 +1,18 @@
+package controllers;
+
 import entities.Expense;
 import exception.InvalidExpenseException;
 import interfaces.ExpenseCalculator;
 import interfaces.ExpenseCalculatorImpl;
 import utils.Utilities;
 import utils.ValidateTypeDoubleImp;
-import utils.ValidateTypeIntImp;
 
 import java.util.Set;
 import java.util.HashSet;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static utils.ValidateDesitionInput.validateDesitionInput;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -37,19 +39,29 @@ public class Main {
 //                    isWrongType = ValidateTypeIntImp.validate(aux);
 //                    if ( isWrongType ) inputAmountOfExpense = Integer.parseInt(aux);
 //            } while (!isWrongType);
-        boolean cuLogicVar;
+        String cutLogicVar;
+        boolean flag = false;
+
         System.out.println("¿Desea cargar un gasto? SI/NO");
 
-        cuLogicVar = scanner.nextBoolean();
+        cutLogicVar = scanner.nextLine();
 
+        validateDesitionInput(cutLogicVar);
+//        do{
+//
+//            if(cutLogicVar.toLowerCase().trim().equals("si") ) flag = true;
+//            if(cutLogicVar.toLowerCase().trim().equals("no") ) flag = true;
+//            if(!flag) System.out.println("Debe ingresar SI/NO para poder continuar");
+//
+//        }while(flag);
 
         List<Expense> expenses = new ArrayList<>();
 
-        while(cuLogicVar){
+        while(cutLogicVar.equals("si")){
             if (counter != 0) System.out.println("Proximo gasto ->");
             Expense expense = new Expense();
-            Set<String> categorties = new HashSet<>();
-            boolean flag = false;
+            Set<String> categories = new HashSet<>();
+            flag = false;
 
             do {
                 System.out.print("Ingrese el monto del gasto: ");
@@ -62,7 +74,7 @@ public class Main {
 
             System.out.print("Ingrese la categoria del gasto:");
             String categoryName = scanner.nextLine().toLowerCase().trim();
-            categorties.add(categoryName);
+            categories.add(categoryName);
 
             categoriesCount.put(categoryName, categoriesCount.getOrDefault(categoryName, 0) + 1);
 
@@ -71,9 +83,6 @@ public class Main {
 //            } else {
 //                categoriesCount.put(categoryName, 1);
 //            }
-
-
-
             System.out.print("Ingrese la fecha del gasto: (dd/mm/yyyy) -> ");
             String date = scanner.nextLine();
 
@@ -88,7 +97,9 @@ public class Main {
             index++;
 
             System.out.println("¿Desea cargar otro gasto? SI/NO");
-            cuLogicVar = scanner.nextBoolean();
+            cutLogicVar = scanner.nextLine();
+            validateDesitionInput(cutLogicVar);
+
         }
         System.out.println("Total de gastos ingresados: " + expenseCalculator.calculateTotalExpense(expenses));
 

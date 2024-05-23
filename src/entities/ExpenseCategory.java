@@ -3,8 +3,8 @@ package entities;
 import java.util.Date;
 
 public class ExpenseCategory {
-
     private String name;
+
     public ExpenseCategory() {
     }
 
