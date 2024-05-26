@@ -10,7 +10,7 @@ public class JdbcConfiguration {
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "";
 
-    private static Connection getDBConnection(){
+    public static Connection getDBConnection(){
         Connection connection = null;
         try {
             Class.forName(DB_DRIVER);
